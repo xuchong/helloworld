@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  qa_title: MyString
+  qa_subject: MyString
+  qa_description: MyString
+  qa_is_anonymous: 1
+  qa_ip_limit: 1
+  qa_user_limit: 1
+  qa_status: 
+  qa_special_list: MyString
+
+two:
+  user_id: 1
+  qa_title: MyString
+  qa_subject: MyString
+  qa_description: MyString
+  qa_is_anonymous: 1
+  qa_ip_limit: 1
+  qa_user_limit: 1
+  qa_status: 
+  qa_special_list: MyString

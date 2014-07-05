@@ -1,0 +1,21 @@
+<% provide(:title, 'Create New Questionniare') %>
+<h1>Create New Questionnaire</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@questionnaire) do |f| %>
+      <%= render 'shared/questionnaire_error_messages' %>
+
+      <%= f.label :qa_title , "Title" %>
+      <%= f.text_field :qa_title %>
+
+      <%= f.label :qa_subject , "Subject" %>
+      <%= f.text_field :qa_subject %>
+
+      <%= f.label :qa_description , "Description" %>
+      <%= f.text_field :qa_description %>
+
+      <%= f.submit "Create new Questionnaire", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

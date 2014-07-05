@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  qa_id: 1
+  q_type: 
+  q_content: MyString
+  q_choice: MyString
+  q_index: 1
+
+two:
+  qa_id: 1
+  q_type: 
+  q_content: MyString
+  q_choice: MyString
+  q_index: 1
