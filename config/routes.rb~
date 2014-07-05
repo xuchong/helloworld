@@ -1,7 +1,6 @@
 SampleApp::Application.routes.draw do
 
   resources :users
-  resources :questions
   resources :questionnaires do 
   member do 
     get 'open'
@@ -25,12 +24,11 @@ end
   match '/create_questionnaire', to: 'questionnaires#new', via: 'get'
   match '/my_questionnaires', to: 'questionnaires#my_questionnaires', via: 'get'
 
-  #match '/add_questions', to: 'questions#add_questions', via: 'get'
-  #match '/add_questions', to: 'questions#create', via: 'post'
-  #match '/add_questions', to: 'questions#new', via: 'get'
+  match '/add_questions', to: 'questions#add_questions', via: 'get'
 
   match '/answer_questionnaire', to: 'questions#show_questions', via: 'get'
   match '/answer_successfully', to: 'questions#get_answer', via: 'get'
+
 
   #match '/open_questionnaire/', to: 'questionnaires#open', via: 'get'
 

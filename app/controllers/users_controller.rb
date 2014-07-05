@@ -13,6 +13,8 @@ class UsersController < ApplicationController
 
   def create
 
+    puts "user_createsfffffffffffffffffffffffffffffffffffffffffffffffuck"
+
     user_params[:user_is_admin] = 0
     user_params[:user_status] = 0
 

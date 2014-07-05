@@ -28,4 +28,6 @@ SampleApp::Application.configure do
   config.assets.debug = true
 
   config.secret_key_base = true
+
+  config.logger = Logger.new(STDOUT)
 end
