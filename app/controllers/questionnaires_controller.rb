@@ -22,7 +22,7 @@ class QuestionnairesController < ApplicationController
     
     if @questionnaire.save
       flash[:success] = "Create Questionnaire Successfully!"
-      redirect_to root_path
+      redirect_to new_questions_questionnaire_path :id => @questionnaire
     else
       render 'new'
     end
@@ -35,6 +35,8 @@ class QuestionnairesController < ApplicationController
 	end
 
 	def show
+     @questionnaire = Questionnaire.find(params[:id])
+            @questions = @questionnaire.questions
 	end
 
   def destroy
@@ -59,6 +61,12 @@ class QuestionnairesController < ApplicationController
     end
   end
 
+   def new_questions
+      @questionnaire = Questionnaire.find(params[:id])
+      @question = Question.new
+      @tempid = @questionnaire.id
+    end
+
   def close
  @questionnaire = Questionnaire.find(params[:id])
     
@@ -73,11 +81,13 @@ class QuestionnairesController < ApplicationController
         redirect_to my_questionnaires_path
     end
   end 
-
+  
 	private
     def questionnaire_params
       params.require(:questionnaire).permit(:qa_title, :qa_subject, :qa_description)
     end
-
+def question_params
+      params.require(:question).permit(:data)
+    end
 end
 

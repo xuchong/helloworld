@@ -43,7 +43,7 @@
   <a href="http://railstutorial.org/contact">contact page</a>.
 -->
     <div class="alert alert-success">
-      Hey,你成功发布了一个问卷,赶快去看看吧!(其实这个链接是百度来的(→_→)
+      Hey,你成功发布了一个问卷,赶快去看看吧!
     </div>
     <br>
 </p>
@@ -82,7 +82,9 @@
   <br>
   
   <div class="input-append">
-    <input class="span6" id="appendedInputButton" type="text" readonly="true"  type="text" value="http://www.baidu.com"> <!--span1~span11控制宽度-->
+    <input class="span6" id="appendedInputButton" type="text" readonly="true"  type="text" value= "<%= @tempstring %>">
+
+     </input><!--span1~span11控制宽度-->
     <button class="btn btn-primary" type="button" onclick="copyToClipboard()">复制</button>
   <script type="text/javascript">
 function copyToClipboard()

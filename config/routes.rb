@@ -1,11 +1,19 @@
 SampleApp::Application.routes.draw do
 
   resources :users
-  resources :questions
+
+  resources :questions do
+    member do
+      get 'show_questions'
+    end
+  end
+
   resources :questionnaires do 
   member do 
     get 'open'
     get 'close'
+    get 'new_questions'
+    get 'qrcode'
   end
 end
   resources :sessions, only: [:new, :create, :destroy]
@@ -14,7 +22,6 @@ end
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
-  match '/signup',  to: 'users#new',            via: 'get'
   match '/create_url', to: 'static_pages#qrcode', via: 'get'
   match '/home', to: 'static_pages#home', via: 'get'
 
@@ -24,13 +31,12 @@ end
 
   match '/create_questionnaire', to: 'questionnaires#new', via: 'get'
   match '/my_questionnaires', to: 'questionnaires#my_questionnaires', via: 'get'
-
+  match '/answer_successfully', to: 'questions#get_answer', via: 'get'
   #match '/add_questions', to: 'questions#add_questions', via: 'get'
   #match '/add_questions', to: 'questions#create', via: 'post'
   #match '/add_questions', to: 'questions#new', via: 'get'
 
-  match '/answer_questionnaire', to: 'questions#show_questions', via: 'get'
-  match '/answer_successfully', to: 'questions#get_answer', via: 'get'
+ 
 
   #match '/open_questionnaire/', to: 'questionnaires#open', via: 'get'
 

@@ -175,7 +175,7 @@ function getJson()
 	getTrueJson();
 	getEssayJson();
 	json="{\"single\":"+sig_json+",\"multi\":"+multi_json+",\"true\":"+true_json+",\"essay\":"+essay_json+"}";
-         $("#question_data").val(json);
+     $("#question_data").val(json);
 }
 function getTrueJson()
 {
@@ -221,8 +221,8 @@ function getMultiJson()
 	var quest_arr=questhash.get("multi");
 	$.each(quest_arr,function(n,value) {
 		var title=$(".multiquestion_"+value).val();
-		json_data+="{'title':'"+title+"'";
-		json_data+=",'choices':'";
+		json_data+="{\"title\":\""+title+"\"";
+		json_data+=",\"choices\":\"";
 
 		var choicearr=choicehash.get("multi_"+value);
 		$.each(choicearr,function(i,v) {
@@ -231,10 +231,10 @@ function getMultiJson()
 		});
 		if(n!=quest_arr.length-1)
 	    {
-	    	json_data+="'},"; 
+	    	json_data+="\"},"; 
 	    }
 	    else
-	    	json_data+="'}"; 
+	    	json_data+="\"}"; 
 		
     });
     json_data+="]"; 
@@ -330,7 +330,7 @@ function addEssay()
 <div id="container">
 
 <div id="header" class="highlight">
-<h1>创建问卷</h1>
+<h1>添加问题</h1>
 </div>
 
 <div id="menu" align="center" class="highlight">
@@ -345,17 +345,19 @@ function addEssay()
 <li><input type="button" value="+判断题" class="btn" onclick="addTrue();"></li>
 <br />
 <li><input type="button" value="+简答题" class="btn" onclick="addEssay();"></li>
-<br /><br /><br /><br />
-<li><input type="button" value="提交" class="btn btn-large btn-primary" onclick="getJson()"></li>
+<br /><br />
+<li>
+<%= form_for (@question) do |f| %>
+                                <%= f.hidden_field :data %>
+        <%= f.hidden_field :questionnaire_id , :value => @tempid %>
+        <%= f.submit :onclick=>'getJson();', :value => '提交', :class=>'btn btn-large btn-primary'%>
+    <% end %>
+</li>
 </ul>
 </h2问卷样例<></div>
-
 <div id="content">
     <div id="div1">
-	<%= form_for (@question) do |f| %>
-		<%= f.text_field :data %>
-		<%= f.submit :onclick =>"getJson()"%>
-	<% end %>
+	
  </div>
 </div>
 

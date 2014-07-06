@@ -12,6 +12,8 @@ class StaticPagesController < ApplicationController
   end
 
   def qrcode
- 	@qr = RQRCode::QRCode.new('http://www.baidu.com/')
+     @questionnaire = Questionnaire.find(params[:id])
+     @tempstring = 'http://localhost:3000/questionnaires/' +  @questionnaire.id.to_s
+ 	   @qr = RQRCode::QRCode.new(@tempstring, :size=>4, :level=>:l)
   end
 end

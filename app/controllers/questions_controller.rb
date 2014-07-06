@@ -1,32 +1,65 @@
 class QuestionsController < ApplicationController
   
   def new
-    puts "xuchongasdajkfssssssssssssssssssssssssssss"
     @question = Question.new
   end
 
   def create
-
-    @out= "hahahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
-    puts "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-
     @data = question_params[:data]
+    @temp_id=question_params[:questionnaire_id]
+    puts @data
     @hash = ActiveSupport::JSON.decode(@data)
-    redirect_to root_path
     
-    @array = hash["single"]
-    if(!@array.nil?)
-      @array.each do |question|
+    @sig_array = @hash["single"]
+    if(!@sig_array.nil?)
+      @sig_array.each_with_index do |question,i|
         @title = question["title"]
         @answer = question["choices"]
-
-        @question = Question.new(questionnaire_id: "1", q_type: "1", q_content: @title, q_choice: @answer, q_index: 1)
+        @question = Question.new(questionnaire_id: @temp_id, q_type: "1", q_content: @title, q_choice: @answer, q_index: i+1)
         if @question.save
         else
         end
       end
     else
     end
+
+    @multi_array = @hash["multi"]
+    if(!@multi_array.nil?)
+      @multi_array.each_with_index do |question,i|
+        @title = question["title"]
+        @answer = question["choices"]
+        @question = Question.new(questionnaire_id: @temp_id, q_type: "2", q_content: @title, q_choice: @answer, q_index: i+1)
+        if @question.save
+        else
+        end
+      end
+    else
+    end
+
+    @true_array = @hash["true"]
+    if(!@true_array.nil?)
+      @true_array.each_with_index do |question,i|
+        @title = question["title"]
+        @question = Question.new(questionnaire_id: @temp_id, q_type: "3", q_content: @title, q_choice:"", q_index: i+1)
+        if @question.save
+        else
+        end
+      end
+      else
+    end
+
+    @essay_array = @hash["essay"]
+    if(!@essay_array.nil?)
+      @essay_array.each_with_index do |question,i|
+        @title = question["title"]
+        @question = Question.new(questionnaire_id: @temp_id, q_type: "4", q_content: @title, q_choice:"", q_index: i+1)
+        if @question.save
+        else
+        end
+      end
+    else
+    end
+    redirect_to create_url_path :id => @temp_id
   end
 
   def show
@@ -49,14 +82,10 @@ class QuestionsController < ApplicationController
 	puts par[:data]
   end
 
-  def create
-        #puts params[:]
-  end
-
   def  get_answer 
        
    end
   def question_params
-      params.require(:question).permit(:data)
+      params.require(:question).permit(:data, :questionnaire_id)
     end
 end
