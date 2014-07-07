@@ -1,4 +1,0 @@
-<%= form_for :question, url: save_questions_path do |f| %>
-	<%= f.textfield :question.data %>
-	<%= f.submit %>
-<%= end_form_tag %>

@@ -1,9 +1,11 @@
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
 	function getJson()
 	{
 		var choiceslist=document.getElementsByTagName("input");
 		var json="{\"all\":[";
+
 		for(var i=0;i<choiceslist.length;i++)
 		{
 			var id_str=choiceslist[i].id;
@@ -15,7 +17,7 @@
 				
 				if(choiceslist[i].checked)
 				{
-					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+id_s_list[2]+"\"},";
+					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+
 				}
 				
 			}
@@ -23,6 +25,7 @@
 			{
 				json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\"";
 				var templength = ("{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\"").length;
+
 				var temps="";
 				if(choiceslist[i].checked)
 				{
@@ -52,6 +55,7 @@
 				temps=temps.substring(0,temps.length-1);
 				if(temps!="")
 				{
+
 					json+=temps+"\"},";
 				}
 				else
@@ -64,6 +68,7 @@
 				
 				if(choiceslist[i].checked)
 				{
+
 					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+id_s_list[2]+"\"},";
 				}
 				
@@ -92,6 +97,7 @@
 		}
 		$("#answer_data").val(json);
 	}
+
 </script>
 <h1><%=  @questionnaire.qa_title %></h1>
 <div align="center">
