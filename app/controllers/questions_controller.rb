@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   def create
     @data = question_params[:data]
     @temp_id=question_params[:questionnaire_id]
-    puts @data
+  
     @hash = ActiveSupport::JSON.decode(@data)
     
     @sig_array = @hash["single"]
@@ -63,6 +63,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+  
   end
 
   def add_questions
@@ -82,8 +83,8 @@ class QuestionsController < ApplicationController
 	puts par[:data]
   end
 
-  def  get_answer 
-       
+  def  get_answer
+ 
    end
   def question_params
       params.require(:question).permit(:data, :questionnaire_id)

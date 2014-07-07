@@ -13,12 +13,12 @@ class UsersController < ApplicationController
 
   def create
 
-    puts "user_createsfffffffffffffffffffffffffffffffffffffffffffffffuck"
+    par = user_params
 
-    user_params[:user_is_admin] = 0
-    user_params[:user_status] = 0
+    par[:user_is_admin] = 0
+    par[:user_status] = 0
 
-    @user = User.new(user_params)    # Not the final implementation!
+    @user = User.new(par)    # Not the final implementation!
 
     if @user.save
       sign_in @user

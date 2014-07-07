@@ -1,10 +1,13 @@
 class QuestionnairesController < ApplicationController
 
-
-  def my_questionnaires 
+def my_questionnaires 
    @questionnaires = Questionnaire.where(user_id: current_user.id)
   end
 
+  def my_answered_questionnaires
+    @questionnaires = Questionnaire.where(user_id: current_user.id)
+  end
+ 
 	def new
 		@questionnaire = Questionnaire.new
 	end
@@ -36,7 +39,8 @@ class QuestionnairesController < ApplicationController
 
 	def show
      @questionnaire = Questionnaire.find(params[:id])
-            @questions = @questionnaire.questions
+     @questions = @questionnaire.questions
+     @answer = Answer.new
 	end
 
   def destroy
@@ -82,12 +86,14 @@ class QuestionnairesController < ApplicationController
     end
   end 
   
-	private
     def questionnaire_params
       params.require(:questionnaire).permit(:qa_title, :qa_subject, :qa_description)
     end
 def question_params
       params.require(:question).permit(:data)
+    end
+  def answer_params
+      params.require(:answer).permit(:data)
     end
 end
 
