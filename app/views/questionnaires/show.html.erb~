@@ -1,102 +1,18 @@
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
-	function getchoices()
-	{
-		var choiceslist=document.getElementsByTagName("input");
-		var json="{";
-		for(var i=0;i<choiceslist.length;i++)
-		{
-			var id_str=choiceslist[i].id;
-			var id_s_list=id_str.split("_");
-			var type=id_s_list[0];
-			var id_no=id_s_list[1];
-			if(type=="1")
-			{
-				
-				if(choiceslist[i].checked)
-				{
-					json+="\""+id_s_list[1]+"\":\""+id_s_list[2]+"\",";
-				}
-				
-			}
-			else if(type=="2")
-			{
-				json+="\""+id_s_list[1]+"\":\"";
-				var templength = ("\""+id_s_list[1]+"\":\"").length;
-				var temps="";
-				if(choiceslist[i].checked)
-				{
-					
-					temps+=id_s_list[2]+";";
-				}
-				i++;
-				if(i<choiceslist.length)
-				{
-					id_str=choiceslist[i].id;
-				    id_s_list=id_str.split("_");
-				}
-				while((i<choiceslist.length)&&(choiceslist[i].id[0]=="2")&&id_no==id_s_list[1])
-				{
-					if(choiceslist[i].checked)
-					{
-						temps+=id_s_list[2]+";";
-					}
-					i++;
-					if(i<choiceslist.length)
-				    {
-				    	id_str=choiceslist[i].id;
-				    	id_s_list=id_str.split("_");
-				    }
-				}
-				i--;
-				temps=temps.substring(0,temps.length-1);
-				if(temps!="")
-				{
-					json+=temps+"\",";
-				}
-				else
-				{
-					json = json.substring(0,json.length-templength);
-				}
-			}
-			else if(type=="3")
-			{
-				
-				if(choiceslist[i].checked)
-				{
-					json+="\""+id_s_list[1]+"\":\""+id_s_list[2]+"\",";
-				}
-				
-			}
-		}
-		
-		choiceslist=document.getElementsByTagName("textarea");
-		for(var i=0;i<choiceslist.length;i++)
-		{
-			var id_str=choiceslist[i].id;
-			var id_s_list=id_str.split("_");
-			var id_no=id_s_list[1];
-			if(choiceslist[i].value!="")
-			{
-				json+="\""+id_s_list[1]+"\":\""+choiceslist[i].value+"\",";
-			}
-		}
-		json=json.substring(0,json.length-1);
-		if(json.length!=0)
-		{
-			json+="}";
-		}
-		
-		alert(json);
-	}
 	function init()
 	{
-		var choice1=document.getElementById("2_59_1");
-		var choice2=document.getElementById("2_59_2");
-
-		alert(choice1.checked+";"+choice2.checked+"id:"+choice1.id[0]);
+		var a=$("#id_58_a");
+	 	if(a.Checked)
+		{
+			alert("xuanzhong:"+a.val());
+		}
+		else
+		{
+			alert("weixuanzhong:"+a.val());
+		}
 	}
-	
+	init();
 </script>
 <h1><%=  @questionnaire.qa_title %></h1>
 <div align="center">
@@ -136,7 +52,7 @@
 				
 			
 					<div width="30px" style="float:left">
-					<%= radio_button_tag '1_'+question.id.to_s , onechoice %> 
+					<%= radio_button_tag 'id_'+question.id.to_s , onechoice %> 
 					</div>  
 				              <%= label_tag onechoice %>
 				
@@ -157,7 +73,7 @@
 				
 				
 					<div width="30px" style="float:left">
-					<%= check_box_tag '2_'+question.id.to_s+ '_'+ onechoice, onechoice %> 
+					<%= check_box_tag 'id_'+question.id.to_s, onechoice %> 
 					</div>  
 				              <%= label_tag onechoice %>
 				
@@ -172,11 +88,11 @@
 		 			<div style="font-size:18px"><%= question.q_content %> </div>
 		 		
 					<div width="30px" style="float:left">
-					<%= radio_button_tag '3_'+question.id.to_s, "True"%> 
+					<%= radio_button_tag 'id_'+question.id.to_s, "True"%> 
 					</div>  
 				              <%= label_tag "True" %>
 				              <div width="30px" style="float:left">
-					<%= radio_button_tag '3_'+question.id.to_s , "False"%> 
+					<%= radio_button_tag 'id_'+question.id.to_s, "False"%> 
 					</div>  
 				              <%= label_tag "False" %>
 				</td></tr>
@@ -189,7 +105,7 @@
 		 			<div style="font-size:18px"><%= question.q_content %> </div>
 		 		
 					<div width="300px" style="float:left">
-					<%= text_area_tag '4_'+question.id.to_s %> 
+					<%= text_area_tag 'id_'+question.id.to_s %> 
 					</div> 
 					<br />
 				</td></tr>
@@ -199,7 +115,7 @@
 		<tr>
 			<td>
 		<div align="center">
-		<a onclick="getchoices();">ssssssssssssssssssss</a>
+		<a onclick="init();">ssssssssssssssssssss</a>
 		<%= button_to "Submit"  , answer_successfully_path, :class => "btn btn-primary", :method => :get %>
 	              </div>
 	          </td></tr>
