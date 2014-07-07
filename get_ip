@@ -1,0 +1,3 @@
+define get_ip
+   request.reomte_ip
+end
