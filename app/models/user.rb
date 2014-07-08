@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-   has_many :questionnaire
-   has_many :answer
-   has_many :relation
+   has_many :questionnaires, :dependent => :destroy
+   has_many :answers, :dependent => :destroy
+   has_many :relationships, :dependent => :destroy
 
 	before_save { self.user_email = user_email.downcase }
   before_create :create_remember_token

@@ -10,7 +10,8 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema.define(version: 20140707013744)
+
+ActiveRecord::Schema.define(version: 20140707072801) do
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
@@ -52,6 +53,14 @@ ActiveRecord::Schema.define(version: 20140707013744)
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "ip"
+  end
+
+  create_table "relationships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "questionnaire_id"
+    t.string   "ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

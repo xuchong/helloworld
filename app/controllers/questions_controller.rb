@@ -4,10 +4,21 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
+  def destroy
+    Question.find(params[:id]).destroy
+  end 
+
   def create
     @data = question_params[:data]
     @temp_id=question_params[:questionnaire_id]
-  
+
+    @tempquestionnaire = Questionnaire.find(@temp_id)
+    @tempquestions = @tempquestionnaire.questions
+
+    @tempquestions.each do |question|
+      question.destroy
+    end
+
     @hash = ActiveSupport::JSON.decode(@data)
     
     @sig_array = @hash["single"]
@@ -59,21 +70,13 @@ class QuestionsController < ApplicationController
       end
     else
     end
-    redirect_to create_url_path :id => @temp_id
+    redirect_to my_questionnaires_user_path(current_user.id)
+    #create_url_path :id => @temp_id
   end
 
   def show
   
   end
-
-  def add_questions
-	@question=Question.new
-  end
-  
-  def show_questions
-    @questionnaires = Questionnaire.where(id: "1")
-    @questions = Question.where(questionnaire_id: "1")
-  end 
 
   def edit
 
@@ -83,9 +86,7 @@ class QuestionsController < ApplicationController
 	puts par[:data]
   end
 
-  def  get_answer
- 
-   end
+  
   def question_params
       params.require(:question).permit(:data, :questionnaire_id)
     end

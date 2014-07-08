@@ -11,6 +11,9 @@ class StaticPagesController < ApplicationController
   def contact
   end
 
+  def answer_successfully
+  end
+
   def qrcode
      @questionnaire = Questionnaire.find(params[:id])
      @tempstring = 'http://localhost:3000/questionnaires/' +  @questionnaire.id.to_s

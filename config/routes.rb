@@ -1,12 +1,14 @@
 SampleApp::Application.routes.draw do
 
-  resources :users
+  resources :users do
+    member do
+      get 'my_questionnaires'
+    get 'my_answered_questionnaires'
+    end
+  end
   resources :answers
 
   resources :questions do
-    member do
-      get 'show_questions'
-    end
   end
 
   resources :questionnaires do 
@@ -14,6 +16,9 @@ SampleApp::Application.routes.draw do
     get 'open'
     get 'close'
     get 'new_questions'
+    get 'edit_questions'
+    get 'show_answer'
+    get 'report'
   end
 end
   resources :sessions, only: [:new, :create, :destroy]
@@ -23,16 +28,16 @@ end
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/create_url', to: 'static_pages#qrcode', via: 'get'
+  match '/answer_successfully', to: 'static_pages#answer_successfully', via: 'get'
   match '/home', to: 'static_pages#home', via: 'get'
 
   match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
-
-  match '/create_questionnaire', to: 'questionnaires#new', via: 'get'
-  match '/my_questionnaires', to: 'questionnaires#my_questionnaires', via: 'get'
-  match '/my_answered_questionnaires', to: 'questionnaires#my_answered_questionnaires', via: 'get'
-  match '/answer_successfully', to: 'questions#get_answer', via: 'get'
+  match '/info', to:'questionnaires#info', via: 'get'
+  #match '/create_questionnaire', to: 'questionnaires#new', via: 'get'
+  #match '/my_questionnaires', to: 'questionnaires#my_questionnaires', via: 'get'
+  #match '/my_answered_questionnaires', to: 'questionnaires#my_answered_questionnaires', via: 'get'
   #match '/add_questions', to: 'questions#add_questions', via: 'get'
   #match '/add_questions', to: 'questions#create', via: 'post'
   #match '/add_questions', to: 'questions#new', via: 'get'

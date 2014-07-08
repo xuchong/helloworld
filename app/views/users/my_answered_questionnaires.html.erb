@@ -1,0 +1,42 @@
+<h1>My Answered Questionnaires</h1>
+<!-- f.submit "Create new Questionnaire", class: "btn btn-large btn-primary"  -->
+<table class="table table-striped table-hover">
+   <caption><%= current_user.user_name %>'s AnsweredQuestionnaire</caption>
+   <thead>
+      <tr>
+         <th>Title</th>
+         <th>Status</th>
+         <th>Answer Date</th>
+         <th>Show Answer</th>
+         <th>Show Result</th>
+      </tr>
+   </thead>
+
+   <tbody>
+   	<% @relationships.each do |relationship|
+   	   @questionnaire = Questionnaire.find(relationship.questionnaire_id)
+   	 %>
+	<tr>
+		<td><%= @questionnaire.qa_title %></td> 
+		<td> 
+			<% if @questionnaire.qa_status == 0 %>
+			<p> Hang</p>
+			<% elsif @questionnaire.qa_status == 1 %>
+			<p> Ongoing</p>
+			<%else%>
+			<p> Closed</p>
+			<%end%>
+		</td>
+		<td><%= relationship.created_at %></td> 
+		<td><%= link_to 'Show Answer', '#' %>
+		<td>			
+			<% if @questionnaire.qa_status == 3 %>
+			<%= link_to '查看结果', report_questionnaire_path(@questionnaire.id) %>
+			<%else%>
+			<p>Unpublished</p>
+			<%end%>
+		</td>
+	</tr>
+     <% end %>
+   </tbody>
+</table>

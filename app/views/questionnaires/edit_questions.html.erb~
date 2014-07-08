@@ -35,6 +35,7 @@ li {list-style:none;}
 </style>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
+
 jQuery.Hashtable = function () {
     this.items = new Array();
     this.itemsCount = 0;
@@ -109,7 +110,47 @@ function init_question_hash()
     questhash.add("true",[]);
     questhash.add("essay",[]);
 }
+
 init_question_hash();
+function autoAdd(type,choice_cnt)
+{
+    var choice_arr;
+    var questhash_arr;
+    if(type=="single")
+    {
+        sig_cnt++;
+        questhash_arr=questhash.get("single");
+        questhash_arr.push(sig_cnt);
+        choicehash.add("sig_"+sig_cnt,[]);
+        choice_arr=choicehash.get("sig_"+sig_cnt);
+         for (var i = 1; i <= choice_cnt; i++) {
+            choice_arr.push(i);
+        };
+    }
+    else if(type=="multi")
+    {
+        multi_cnt++;
+        questhash_arr=questhash.get("multi");
+        questhash_arr.push(multi_cnt);
+        choicehash.add("multi_"+multi_cnt,[]);
+        choice_arr=choicehash.get("multi_"+multi_cnt);
+         for (var i = 1; i <= choice_cnt; i++) {
+            choice_arr.push(i);
+        };
+    }
+    else if(type=="true")
+    {
+        true_cnt++;
+        questhash_arr=questhash.get("true");
+        questhash_arr.push(true_cnt);
+    }
+    else if(type=="essay")
+    {
+        essay_cnt++;
+        questhash_arr=questhash.get("essay");
+        questhash_arr.push(essay_cnt);
+    }
+}
 
 function new_sing_str()
 {
@@ -175,7 +216,7 @@ function getJson()
 	getTrueJson();
 	getEssayJson();
 	json="{\"single\":"+sig_json+",\"multi\":"+multi_json+",\"true\":"+true_json+",\"essay\":"+essay_json+"}";
-     $("#question_data").val(json);
+    $("#question_data").val(json);
 }
 function getTrueJson()
 {
@@ -330,12 +371,12 @@ function addEssay()
 <div id="container">
 
 <div id="header" class="highlight">
-<h1>添加问题</h1>
+<h1>编辑问题</h1>
 </div>
 
 <div id="menu" align="center" class="highlight">
 <br />
-<h2>添加题型</h2>
+<h2>编辑题型</h2>
 <br />
 <ul>
 <li><input type="button" value="+单选题" class="btn" onclick="addSingle();"></li>
@@ -357,7 +398,98 @@ function addEssay()
 </div>
 <div id="content">
     <div id="div1">
-	
+	<% @questions.each_with_index do |question,i| %> 
+                   <% if question.q_type == 1 %>
+
+                   <% @choices = question.q_choice.split(";") %>
+                    <script type="text/javascript">autoAdd("single", <%= @choices.length%>);</script>
+                           <div class = "div2" name = "single_<%= question.q_index %>"  style = "margin-top : 120px">
+                                   <div align="center">
+                                          <button class = "btn btn-small" onclick = "addSingleBefore(<%= question.q_index %>)">上方添加</button>
+                                          &nbsp;&nbsp;
+                                          <button class = "btn btn-small" onclick = "addSingleAfter(<%= question.q_index %>)">下方添加</button>
+                                   </div>
+                                   <div class="form-inline" align="center" style = "margin-top : 5px">
+                                            <label>单选</label>
+                                            &nbsp;&nbsp;
+                                            <input class="sigquestion_<%= question.q_index %>" type= "text" style="width : 80%" value = "<%= question.q_content %>">
+                                            &nbsp;&nbsp;
+                                             <button class = "btn btn-danger" onclick = "$('div[name=single_<%= question.q_index %>]').remove();var arr=questhash.get('single');arr.splice($.inArray(<%= question.q_index %>,arr),1);" >删除题目</button>
+                                   </div>
+                                  
+                                          <% @choices.each_with_index do |onechoice,j| %>
+                                           <div class="form-inline" align="center" style = "margin-top : 5px" name = "sig_<%= question.q_index %>_<%= j+1 %>" >
+                                           <input type="radio" name="sig_<%= question.q_index %>_<%= j+1 %>" >
+                                                            <input class="sigchoice_<%= question.q_index %>_<%= j+1 %>" type="text" style="width:70%" value = "<%= onechoice %>">
+                                                            &nbsp;
+                                                            <button class="btn btn-small" onclick="addSingChoice(<%= question.q_index %>,<%= j+1 %>);">添加</button>
+                                                               &nbsp;
+                                                             <button class="btn btn-small" onclick="$('div[name=sig_<%= question.q_index %>_<%= j+1 %>]').remove();var arr=choicehash.get('sig_<%= question.q_index %>');arr.splice($.inArray(<%= j+1 %>,arr),1);">移除</button>
+                                           </div>
+                                            <% end %>
+                           </div>
+                    <% elsif question.q_type == 2 %>
+                        <% @choices = question.q_choice.split(";") %>
+                        <script type="text/javascript">autoAdd("multi", <%= @choices.length%>);</script>
+                           <div class = "div2" name = "multi_<%= question.q_index %>"  style = "margin-top : 120px">
+                                   <div align="center">
+                                          <button class = "btn btn-small" onclick = "addMultiBefore(<%= question.q_index %>)">上方添加</button>
+                                          &nbsp;&nbsp;
+                                          <button class = "btn btn-small" onclick = "addMultiAfter(<%= question.q_index %>)">下方添加</button>
+                                   </div>
+                                   <div class="form-inline" align="center" style = "margin-top : 5px">
+                                            <label>多选</label>
+                                            &nbsp;&nbsp;
+                                            <input class="multiquestion_<%= question.q_index %>" type= "text" style="width : 80%" value = "<%= question.q_content %>">
+                                            &nbsp;&nbsp;
+                                             <button class = "btn btn-danger" onclick = "$('div[name=multi_<%= question.q_index %>]').remove();var arr=questhash.get('multi');arr.splice($.inArray(<%= question.q_index %>,arr),1);" >删除题目</button>
+                                   </div>
+                                          <% @choices.each_with_index do |onechoice,j| %>
+                                           <div class="form-inline" align="center" style = "margin-top : 5px" name = "multi_<%= question.q_index %>_<%= j+1 %>" >
+                                           <input type="checkbox" name="multy_<%= question.q_index %>_<%= j+1 %>" >
+                                                            <input class="multichoice_<%= question.q_index %>_<%= j+1 %>" type="text" style="width:70%" value = "<%= onechoice %>">
+                                                            &nbsp;
+                                                            <button class="btn btn-small" onclick="addMultiChoice(<%= question.q_index %>,<%= j+1 %>);">添加</button>
+                                                               &nbsp;
+                                                             <button class="btn btn-small" onclick="$('div[name=multi_<%= question.q_index %>_<%= j+1 %>]').remove();var arr=choicehash.get('multi_<%= question.q_index %>');arr.splice($.inArray(<%= j+1 %>,arr),1);">移除</button>
+                                           </div>
+                                            <% end %>
+                           </div>
+                     <% elsif question.q_type == 3 %>
+                            <script type="text/javascript">autoAdd("true",0);</script>
+                           <div class = "div2" name = "true_<%= question.q_index %>"  style = "margin-top : 120px">
+                                   <div align="center">
+                                          <button class = "btn btn-small" onclick = "addTrueBefore(<%= question.q_index %>)">上方添加</button>
+                                          &nbsp;&nbsp;
+                                          <button class = "btn btn-small" onclick = "addTrueAfter(<%= question.q_index %>)">下方添加</button>
+                                   </div>
+                                   <div class="form-inline" align="center" style = "margin-top : 5px">
+                                            <label>判断</label>
+                                            &nbsp;&nbsp;
+                                            <input class="truequestion_<%= question.q_index %>" type= "text" style="width : 80%" value = "<%= question.q_content %>">
+                                            &nbsp;&nbsp;
+                                             <button class = "btn btn-danger" onclick = "$('div[name=true_<%= question.q_index %>]').remove();var arr=questhash.get('true');arr.splice($.inArray(<%= question.q_index %>,arr),1);" >删除题目</button>
+                                   </div>
+                           </div>
+                    <% elsif question.q_type == 4 %>
+                          <script type="text/javascript">autoAdd("essay",0);</script>
+                           <div class = "div2" name = "essay_<%= question.q_index %>"  style = "margin-top : 120px">
+                                   <div align="center">
+                                          <button class = "btn btn-small" onclick = "addEssayBefore(<%= question.q_index %>)">上方添加</button>
+                                          &nbsp;&nbsp;
+                                          <button class = "btn btn-small" onclick = "addEssayAfter(<%= question.q_index %>)">下方添加</button>
+                                   </div>
+                                   <div class="form-inline" align="center" style = "margin-top : 5px">
+                                            <label>问答</label>
+                                            &nbsp;&nbsp;
+                                            <input class="essayquestion_<%= question.q_index %>" type= "text" style="width : 80%" value = "<%= question.q_content %>">
+                                            &nbsp;&nbsp;
+                                             <button class = "btn btn-danger" onclick = "$('div[name=essay_<%= question.q_index %>]').remove();var arr=questhash.get('essay');arr.splice($.inArray(<%= question.q_index %>,arr),1);" >删除题目</button>
+                                   </div>
+                           </div>
+                    <% end %>
+
+          <% end %>
  </div>
 </div>
 

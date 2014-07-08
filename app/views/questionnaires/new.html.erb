@@ -1,21 +1,41 @@
 <% provide(:title, 'Create New Questionniare') %>
-<h1>Create New Questionnaire</h1>
+<script type="text/javascript">
+
+  function showinfo(id_name)
+  {
+        $('#title').popover('hide');
+        $('#subject').popover('hide');
+        $('#description').popover('hide');
+        $('#'+id_name).popover('show');
+  }
+
+</script>
+<h1>新建问卷</h1>
 
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@questionnaire) do |f| %>
       <%= render 'shared/questionnaire_error_messages' %>
-
-      <%= f.label :qa_title , "Title" %>
-      <%= f.text_field :qa_title %>
-
-      <%= f.label :qa_subject , "Subject" %>
-      <%= f.text_field :qa_subject %>
-
-      <%= f.label :qa_description , "Description" %>
-      <%= f.text_field :qa_description %>
-
-      <%= f.submit "Create new Questionnaire", class: "btn btn-large btn-primary" %>
+      <div class="hero-unit" style="height:200px">
+          <div class="form-inline" style="font-size:16px">
+            <%= f.label :qa_title , "标题" %>&nbsp;&nbsp;
+            <%= f.text_field :qa_title, :style=>"width:80%", :id=>"title", :onfocus=>"showinfo(\"title\");", "data-toggle"=>"popover" ,"title"=>"", "data-content"=>"这是问卷的标题，请务必描述准确", "data-original-title"=>"标题" %>
+          </div>
+          <br />
+          <div class="form-inline" style="font-size:16px">
+            <%= f.label :qa_subject , "主题" %>&nbsp;&nbsp;
+            <%= f.text_field :qa_subject, :style=>"width:80%", :id=>"subject", :onfocus=>"showinfo(\"subject\");", "data-toggle"=>"popover" ,"title"=>"", "data-content"=>"这是问卷的主题，请认真填写以便答题人员能较容易地检索到", "data-original-title"=>"主题" %>
+          </div>
+          <br />
+          <div class="form-inline" style="font-size:16px">
+            <%= f.label :qa_description , "描述" %>&nbsp;&nbsp;
+            <%= f.text_area :qa_description, :style=>"width:80%", :id=>"description", :onfocus=>"showinfo(\"description\");", "data-toggle"=>"popover" ,"title"=>"", "data-content"=>"这是对于该问卷的描述和补充，请填写以便作答人员能更好地理解您的意思", "data-original-title"=>"描述" %>
+          </div>
+          <br />
+          <div align="center">  
+            <%= f.submit "创建新问卷", class: "btn btn-large btn-primary" %>
+          </div>
+      </div>
     <% end %>
   </div>
 </div>

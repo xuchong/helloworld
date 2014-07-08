@@ -11,10 +11,10 @@
                  问卷<b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li><%= link_to "创建问卷", create_questionnaire_path %></li>
+                <li><%= link_to "创建问卷", new_questionnaire_path %></li>
                 <li class="divider"></li>
-                <li><%= link_to "我的问卷", my_questionnaires_path %></li>
-                <li><%= link_to "我的答卷", my_answered_questionnaires_path %></li>
+                <li><%= link_to "我的问卷", my_questionnaires_user_path(current_user) %></li>
+                <li><%= link_to "我的答卷", my_answered_questionnaires_user_path(current_user) %></li>
               </ul>
           </li>
           <li><%= link_to "帮助", help_path %></li>
@@ -28,6 +28,18 @@
                <li><%= link_to "注销", signout_path, method: "delete" %></li>
               </ul>
           </li>
+          <% if admin?%>
+            <li id="fat-menu" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Admin <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li><%= link_to "管理用户", users_path%></li>
+               <li><%= link_to "管理问卷",  questionnaires_path%></li>
+               <li><%= link_to "统计信息", '#' %></li>
+              </ul>
+          </li>
+          <% end %>
           <% else %>
             <li><%= link_to "登录", signin_path %></li>
             <li><%= link_to "注册", signup_path %></li>

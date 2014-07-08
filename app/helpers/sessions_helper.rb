@@ -45,4 +45,8 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.fullpath if request.get?
   end
+
+  def admin?
+    current_user.user_is_admin == 1
+  end
 end

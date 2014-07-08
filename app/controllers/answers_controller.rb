@@ -7,6 +7,7 @@ class AnswersController < ApplicationController
 	def create
     @data = answer_params[:data]
 
+    @temp_questionnaire_id = 0
     @hash = ActiveSupport::JSON.decode(@data)
      flag = true
     @ans_array = @hash["all"]
@@ -14,10 +15,13 @@ class AnswersController < ApplicationController
       @ans_array.each_with_index do |answer,i|
         @ques_id = answer["question_id"]
         @ans_content = answer["answer_content"]
-       
+
+        @questions = Question.find(@ques_id)
+
+       @temp_questionnaire_id = @questions.questionnaire_id
         @answer = Answer.new(question_id: @ques_id, user_id: current_user.id, answer_content: @ans_content)
         if @answer.save
-        	flash[:success] = "Submit Successfully! Thank you for participating."
+        	
       
 
         else
@@ -30,6 +34,12 @@ class AnswersController < ApplicationController
         	 flag = false
     end
 if flag
+    @relationship = Relationship.new(questionnaire_id: @temp_questionnaire_id, user_id: current_user.id, ip:request.remote_ip)
+    if @relationship.save
+        flash[:success] = "Submit Successfully! Thank you for participating."
+    else
+         flash[:error] = "Relationship Saving Falied!"
+     end
 	redirect_to answer_successfully_path
 end
 	end
@@ -37,6 +47,7 @@ end
 	def show
 
 	end
+
 
 	private
 	def answer_params

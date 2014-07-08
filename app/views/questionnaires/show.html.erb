@@ -1,11 +1,9 @@
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
-<<<<<<< HEAD
 	function getJson()
 	{
 		var choiceslist=document.getElementsByTagName("input");
 		var json="{\"all\":[";
-
 		for(var i=0;i<choiceslist.length;i++)
 		{
 			var id_str=choiceslist[i].id;
@@ -17,7 +15,7 @@
 				
 				if(choiceslist[i].checked)
 				{
-					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+
+					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+choiceslist[i].value+"\"},";
 				}
 				
 			}
@@ -25,12 +23,11 @@
 			{
 				json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\"";
 				var templength = ("{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\"").length;
-
 				var temps="";
 				if(choiceslist[i].checked)
 				{
 					
-					temps+=id_s_list[2]+";";
+					temps+=choiceslist[i].value+";";
 				}
 				i++;
 				if(i<choiceslist.length)
@@ -42,7 +39,7 @@
 				{
 					if(choiceslist[i].checked)
 					{
-						temps+=id_s_list[2]+";";
+						temps+=choiceslist[i].value+";";
 					}
 					i++;
 					if(i<choiceslist.length)
@@ -55,7 +52,6 @@
 				temps=temps.substring(0,temps.length-1);
 				if(temps!="")
 				{
-
 					json+=temps+"\"},";
 				}
 				else
@@ -68,8 +64,7 @@
 				
 				if(choiceslist[i].checked)
 				{
-
-					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+id_s_list[2]+"\"},";
+					json+="{\"question_id\":\""+id_s_list[1]+"\",\"answer_content\":\""+choiceslist[i].value+"\"},";
 				}
 				
 			}
@@ -97,7 +92,6 @@
 		}
 		$("#answer_data").val(json);
 	}
-
 </script>
 <h1><%=  @questionnaire.qa_title %></h1>
 <div align="center">
@@ -107,14 +101,14 @@
 		 		<tr>
 		 			<td>
 		 			<div align="center"style="font-size:20px">
-		 			<%= "Subject: "  +  @questionnaire.qa_subject %>
+		 			<%= "主题: "  +  @questionnaire.qa_subject %>
 		 			</div>
 		 			</td>
 		 		</tr>
 		 		<tr>
 		 			<td>
 		 			<div align="center"style="font-size:20px">
-		 			<%= "Description: "  +  @questionnaire.qa_description %>
+		 			<%= "描述: "  +  @questionnaire.qa_description %>
 		 			</div>
 		 			 </td>
 		 		</tr>
@@ -128,18 +122,23 @@
 
 		 		<tr>
 		 			<td>
-		 			<%= "Single Choice:" %><br />
-		 			<div style="font-size:18px"><%= question.q_content %> </div>
-		 		
+		 			<%= "单选题:" %>
+                                        <div style="margin-top:10px">
+		 			  <div style="font-size:18px">
+                                           
+                                            <%= question.q_content %>
+                                          </div>
+		 		        </div>
 
 				<% @choices = question.q_choice.split(";") %>
 				<% @choices.each do |onechoice| %> 
 				
-			
+			              <div style="margin-top:10px">
 					<div width="30px" style="float:left">
 					<%= radio_button_tag '1_'+question.id.to_s , onechoice %> 
 					</div>  
 				              <%= label_tag onechoice %>
+                                      </div>
 				
 				<% end %>
 				</td></tr>
@@ -149,17 +148,20 @@
 
 		 		<tr>
 		 			<td>
-		 			<%= "Multiple Choice:" %><br />
-		 			<div style="font-size:18px"><%= question.q_content %> </div>
+		 			<%= "多选题:" %><br />
+                                        <div style="margin-top:10px">
+		 			<div style="font-size:18px">
+                                           <%= question.q_content %>
+                                        </div></div>
 		 		
 
 				<% @choices = question.q_choice.split(";") %>
 				<% @choices.each do |onechoice| %> 
 				
-				
+				      <div style="margin-top:10px">
 					<div width="30px" style="float:left">
 					<%= check_box_tag '2_'+question.id.to_s+ '_'+ onechoice, onechoice %> 
-					</div>  
+					</div>  </div>
 				              <%= label_tag onechoice %>
 				
 				<% end %>
@@ -169,44 +171,50 @@
 
 		 		<tr>
 		 			<td>
-		 			<%= "True/False Choice:" %><br />
-		 			<div style="font-size:18px"><%= question.q_content %> </div>
+		 			<%= "判断题:" %><br />
+		 			<div style="margin-top:10px">
+                                         <div style="font-size:18px">
+                                        <%= question.q_content %> </div></div>
 		 		
-					<div width="30px" style="float:left">
+					<div style="margin-top:10px"><div width="30px" style="float:left">
 					<%= radio_button_tag '3_'+question.id.to_s, "True"%> 
-					</div>  
-				              <%= label_tag "True" %>
+					</div>
+				              <%= label_tag "是" %>
 				              <div width="30px" style="float:left">
 					<%= radio_button_tag '3_'+question.id.to_s , "False"%> 
 					</div>  
-				              <%= label_tag "False" %>
+				              <%= label_tag "否" %></div>
 				</td></tr>
 				
 			<% elsif question.q_type == 4 %>
 
 		 		<tr>
 		 			<td>
-		 			<%= "Essay Question:" %>
-		 			<div style="font-size:18px"><%= question.q_content %> </div>
-		 		
-					<div width="300px" style="float:left">
+		 			<%= "问答题:" %>
+                                        <div style="margin-top:10px">
+		 			<div style="font-size:18px">
+                                        <%= question.q_content %> </div></div>
+		 		        <div>
+					<div style="float:left width:200px height:300px">
 					<%= text_area_tag '4_'+question.id.to_s %> 
-					</div> 
+					</div> </div>
 					<br />
 				</td></tr>
 				
 			<% end %>
 		<% end %>
-		<br />
-		<br />
-	</tbody>
-</table>
-<div align="center">
-<li>
-<%= form_for (@answer) do |f| %>
+		<tr>
+			<td>
+		<div align="center">
+		<%= form_for (@answer) do |f| %>
                                 <%= f.hidden_field :data %>
         <%= f.submit :value => '提交', :onclick=>'getJson();', :class=>'btn btn-large btn-primary'%>
     <% end %>
-</li>
-</div>
+	              </div>
+	          </td></tr>
+		<br />
+		<br />
+	</tbody>
+	
+</table>
 </div>

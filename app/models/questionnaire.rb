@@ -1,6 +1,6 @@
 class Questionnaire < ActiveRecord::Base
-	has_many :questions
-	has_many :relations
+	has_many :questions, :dependent => :destroy
+	has_many :relationships, :dependent => :destroy
 	belongs_to :user
 
 	validates :qa_title , presence: true, length: {maximum: 50}
