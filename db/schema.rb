@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20140707083420) do
     t.string   "q_content"
     t.string   "q_choice"
     t.integer  "q_index"
-    t.string   "q_data"
+    t.string   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
