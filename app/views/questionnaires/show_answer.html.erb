@@ -1,1 +1,179 @@
-<h1>show_answer</h1>
+<h1>我的答卷：<%=  @questionnaire.qa_title %></h1>
+<div align="center">
+<table class="table table-striped table-hover" style="width:80%">
+     <thead>
+	
+		 		<tr>
+		 			<td>
+		 				<div align="center"style="font-size:20px">
+		 				<%= "主题: "  +  @questionnaire.qa_subject %>
+		 				</div>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			<td>
+		 				<div align="center"style="font-size:20px">
+		 				<%= "描述: "  +  @questionnaire.qa_description %>
+		 				</div>
+		 			 </td>
+		 		</tr>
+		 		
+				
+</thead>
+<tbody>
+		<% @questions.each do |question| %>
+		 	<% if question.q_type == 1 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "单选题:" %>
+                                                                                	<div style="margin-top:10px">
+		 			  	<div style="font-size:18px">
+                                           
+                                            					<%= question.q_content %>
+                                          			</div>
+		 		        	</div>
+		 		        	<% @answers = Answer.where( user_id: @tempuserid, question_id: question.id) %>
+					<% @answer = @answers.first %>
+					<% @answerchoices = @answer.answer_content.split(";") %>
+
+					<% @choices = question.q_choice.split(";") %>
+					<% @choices.each do |onechoice| %> 
+						<% if @answerchoices.include?(onechoice.to_s) %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + onechoice , onechoice ,:checked => "true", :readonly => "true" %> 
+							</div>  
+					              		<%= label_tag onechoice %>
+	                                      			</div>
+	                                      			<% else %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + onechoice , onechoice %> 
+							</div>  
+					              		<%= label_tag onechoice %>
+	                                      			</div>
+					
+						<% end %>
+					<% end %>
+					</td>
+				</tr>
+				
+			
+			<% elsif question.q_type == 2 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "多选题:" %>
+                                                                                	<div style="margin-top:10px">
+		 			  	<div style="font-size:18px">
+                                           
+                                            					<%= question.q_content %>
+                                          			</div>
+		 		        	</div>
+		 		        	<% @answers = Answer.where( user_id: @tempuserid, question_id: question.id) %>
+					<% @answer = @answers.first %>
+					<% @answerchoices = @answer.answer_content.split(";") %>
+
+					<% @choices = question.q_choice.split(";") %>
+					<% @choices.each do |onechoice| %> 
+						<% if @answerchoices.include?(onechoice.to_s) %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= check_box_tag '1_'+question.id.to_s + onechoice , onechoice ,:checked => "true", :readonly => "true" %> 
+							</div>  
+					              		<%= label_tag onechoice %>
+	                                      			</div>
+	                                      			<% else %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= check_box_tag '1_'+question.id.to_s + onechoice , onechoice %> 
+							</div>  
+					              		<%= label_tag onechoice %>
+	                                      			</div>
+					
+						<% end %>
+					<% end %>
+					</td>
+				</tr>
+				
+			<% elsif question.q_type == 3 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "判断题:" %>
+                                                                                	<div style="margin-top:10px">
+		 			  	<div style="font-size:18px">
+                                           
+                                            					<%= question.q_content %>
+                                          			</div>
+		 		        	</div>
+		 		        	<% @answers = Answer.where( user_id: @tempuserid, question_id: question.id) %>
+					<% @answer = @answers.first %>
+					<% @answerchoices = @answer.answer_content.split(";") %>
+
+						<% if @answerchoices.include?("true") %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + 'True' , 'True' ,:checked => "true", :readonly => "true" %> 
+							</div>  
+					              		<%= label_tag 'True' %>
+	                                      			</div>
+	                                      			<div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + 'False' , 'False' %> 
+							</div>  
+					              		<%= label_tag 'False' %>
+	                                      			</div>
+	                                      			<% else %>
+					
+				             		 <div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + 'False' , 'False', :checked => "true", :readonly => "true" %> 
+							</div>  
+					              		<%= label_tag 'False' %>
+	                                      			</div>
+	                                      			<div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + 'True' , 'True' %> 
+							</div>  
+					              		<%= label_tag 'True' %>
+	                                      			</div>
+					
+						<% end %>
+					</td>
+				</tr>
+				
+			<% elsif question.q_type == 4 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "简答题:" %>
+                                        				<div style="margin-top:10px">
+		 					<div style="font-size:18px">
+                                        						<%= question.q_content %>
+                                        				 	</div>
+                                        				</div>
+                                        				<% @answers = Answer.where( user_id: @tempuserid, question_id: question.id) %>
+						<% @answer = @answers.first %>
+		 		        		<div>
+							<div style="float:left width:200px height:300px">
+								<%= text_area_tag '4_'+question.id.to_s, @answer.answer_content, :readonly => "true"%> 
+							</div> 
+				        		</div>
+					<br />
+					</td>
+				</tr>
+				
+			<% end %>
+		<% end %>
+		<br />
+		<br />
+</tbody>
+</table>
+</div>

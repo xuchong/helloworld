@@ -87,7 +87,7 @@ class QuestionnairesController < ApplicationController
   def show_answer
     @questionnaire = Questionnaire.find(params[:id])
      @questions = @questionnaire.questions
-     @answer = Answer.new
+     @tempuserid = current_user.id
   end
   
     def questionnaire_params
