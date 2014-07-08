@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.2'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+#gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -38,6 +38,15 @@ gem 'bootstrap-sass', '2.3.2.0'
 gem 'bcrypt-ruby', '~> 3.1.2'
 
 gem 'rqrcode'
+
+group :development do
+   #gem 'sqlite' -> comment out for now
+   gem 'sqlite3'
+end
+
+group :production do
+   gem 'pg'
+end
 # Use unicorn as the app server
 # gem 'unicorn'
 
