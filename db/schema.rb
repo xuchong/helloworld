@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707072801) do
+ActiveRecord::Schema.define(version: 20140707083420) do
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
     t.integer  "user_id"
     t.string   "answer_content"
+    t.string   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "data"
   end
 
   create_table "questionnaires", force: true do |t|
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20140707072801) do
     t.integer  "qa_ip_limit"
     t.integer  "qa_status"
     t.string   "qa_special_list"
+    t.integer  "qa_user_limit"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "qa_user_limit"
   end
 
   create_table "questions", force: true do |t|
@@ -42,22 +42,14 @@ ActiveRecord::Schema.define(version: 20140707072801) do
     t.string   "q_content"
     t.string   "q_choice"
     t.integer  "q_index"
+    t.string   "q_data"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "data"
-  end
-
-  create_table "relations", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "questionnaire_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "ip"
   end
 
   create_table "relationships", force: true do |t|
     t.integer  "user_id"
-    t.integer  "questionnaire_id"
+    t.string   "questionnaire_id"
     t.string   "ip"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -71,12 +63,10 @@ ActiveRecord::Schema.define(version: 20140707072801) do
     t.integer  "user_status"
     t.integer  "user_is_admin"
     t.string   "user_job"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "remember_token"
     t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end
