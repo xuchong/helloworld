@@ -41,8 +41,8 @@
           <%= f.text_field :user_age,  :style=>"width:100%", :id=>"age", :onfocus=>"showinfo(\"age\");", "data-toggle"=>"popover" ,"title"=>"", "data-content"=>"请输入您的年龄", "data-original-title"=>"年龄"%>
         </div>
         <div>
-          <%= f.label :user_age , "性别", :style=>"font-size:16px"%>
-          <%= f.select :user_sex, options_for_select([['男', 'male'],['女', 'female']]) %>
+          <%= f.label :user_sex , "性别", :style=>"font-size:16px"%>
+          <%= f.select :user_sex, options_for_select([['男', '男'],['女', '女']]) %>
         </div>
         <div>
           <%= f.label :user_job , "职业", :style=>"font-size:16px" %>

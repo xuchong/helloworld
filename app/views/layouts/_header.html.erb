@@ -1,7 +1,7 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "FIREFLIES问卷调查", root_path, id: "logo" %>
+      <%= link_to "FireFlies问卷调查", root_path, id: "logo" %>
       <nav>
         <ul class="nav pull-right">
           <% if signed_in? %>
@@ -17,12 +17,13 @@
                 <li><%= link_to "我的答卷", my_answered_questionnaires_user_path(current_user) %></li>
               </ul>
           </li>
-          <li><%= link_to "帮助", help_path %></li>
+          
           <li id="fat-menu" class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                  账户<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
+              <li><%= link_to "我的主页", @current_user %></li>
                <li><%= link_to "我的资料", edit_user_path(current_user) %></li>
                <li class="divider"></li>
                <li><%= link_to "注销", signout_path, method: "delete" %></li>
@@ -36,7 +37,7 @@
             <ul class="dropdown-menu">
                <li><%= link_to "管理用户", users_path%></li>
                <li><%= link_to "管理问卷",  questionnaires_path%></li>
-               <li><%= link_to "统计信息", '#' %></li>
+               <li><%= link_to "统计信息", questionnaire_info_path %></li>
               </ul>
           </li>
           <% end %>

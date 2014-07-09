@@ -116,34 +116,35 @@
 					<% @answer = @answers.first %>
 					<% @answerchoices = @answer.answer_content.split(";") %>
 
-						<% if @answerchoices.include?("true") %>
+						<% if @answerchoices.include?("TRUE") %>
 					
 				             		 <div style="margin-top:10px">
 							<div width="30px" style="float:left">
 								<%= radio_button_tag '1_'+question.id.to_s + 'True' , 'True' ,:checked => "true", :readonly => "true" %> 
 							</div>  
-					              		<%= label_tag 'True' %>
+					              		<%= label_tag 'TRUE' %>
 	                                      			</div>
 	                                      			<div style="margin-top:10px">
 							<div width="30px" style="float:left">
 								<%= radio_button_tag '1_'+question.id.to_s + 'False' , 'False' %> 
 							</div>  
-					              		<%= label_tag 'False' %>
+					              		<%= label_tag 'FALSE' %>
 	                                      			</div>
 	                                      			<% else %>
+	                                      			<div style="margin-top:10px">
+							<div width="30px" style="float:left">
+								<%= radio_button_tag '1_'+question.id.to_s + 'True' , 'True' %> 
+							</div>  
+					              		<%= label_tag 'TRUE' %>
+	                                      			</div>
 					
 				             		 <div style="margin-top:10px">
 							<div width="30px" style="float:left">
 								<%= radio_button_tag '1_'+question.id.to_s + 'False' , 'False', :checked => "true", :readonly => "true" %> 
 							</div>  
-					              		<%= label_tag 'False' %>
+					              		<%= label_tag 'FALSE' %>
 	                                      			</div>
-	                                      			<div style="margin-top:10px">
-							<div width="30px" style="float:left">
-								<%= radio_button_tag '1_'+question.id.to_s + 'True' , 'True' %> 
-							</div>  
-					              		<%= label_tag 'True' %>
-	                                      			</div>
+	                                      			
 					
 						<% end %>
 					</td>
@@ -161,12 +162,13 @@
                                         				</div>
                                         				<% @answers = Answer.where( user_id: @tempuserid, question_id: question.id) %>
 						<% @answer = @answers.first %>
-		 		        		<div>
+		 		        		<br /><div>
 							<div style="float:left width:200px height:300px">
 								<%= text_area_tag '4_'+question.id.to_s, @answer.answer_content, :readonly => "true"%> 
 							</div> 
 				        		</div>
 					<br />
+					
 					</td>
 				</tr>
 				

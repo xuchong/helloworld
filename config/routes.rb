@@ -1,12 +1,19 @@
 SampleApp::Application.routes.draw do
 
+ resources :relationships do
+  end
+
   resources :users do
     member do
       get 'my_questionnaires'
     get 'my_answered_questionnaires'
+    get 'shutdown'
+    get 'reshut'
     end
   end
-  resources :answers
+  
+  resources :answers do
+  end
 
   resources :questions do
   end
@@ -14,27 +21,41 @@ SampleApp::Application.routes.draw do
   resources :questionnaires do 
   member do 
     get 'open'
+    get 'reopen'
     get 'close'
     get 'new_questions'
     get 'edit_questions'
     get 'show_answer'
+    get 'preshow'
     get 'report'
+    get 'set_limitations'
+    get 'publishresult'
   end
 end
   resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'static_pages#home'
+  match '/home', to: 'static_pages#home', via: 'get'
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/create_url', to: 'static_pages#qrcode', via: 'get'
+  match '/questionnaire_closed', to: 'static_pages#questionnaire_closed', via: 'get'
+  match '/questionnaire_unpublished', to: 'static_pages#questionnaire_unpublished', via: 'get'
+  match '/questionnaire_timeup', to: 'static_pages#questionnaire_timeup', via: 'get'
+  match '/user_ip_limit', to: 'static_pages#user_ip_limit', via: 'get'
+  match '/user_signin_limit', to: 'static_pages#user_signin_limit', via: 'get'
+  match '/user_num_limit', to: 'static_pages#user_num_limit', via: 'get'
+  match '/user_special_limit', to: 'static_pages#user_special_limit', via: 'get'
+  match '/user_shutdown', to: 'static_pages#user_shutdown', via: 'get'
+  match '/user_id_limit', to: 'static_pages#user_id_limit', via: 'get'
   match '/answer_successfully', to: 'static_pages#answer_successfully', via: 'get'
-  match '/home', to: 'static_pages#home', via: 'get'
+
 
   match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
-  match '/info', to:'questionnaires#info', via: 'get'
+  match '/questionnaire_info', to:'questionnaires#info', via: 'get'
   #match '/create_questionnaire', to: 'questionnaires#new', via: 'get'
   #match '/my_questionnaires', to: 'questionnaires#my_questionnaires', via: 'get'
   #match '/my_answered_questionnaires', to: 'questionnaires#my_answered_questionnaires', via: 'get'

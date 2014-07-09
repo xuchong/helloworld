@@ -1,0 +1,169 @@
+<% provide(:title, '测试图表') %>
+<h1>网站统计</h1>
+
+<table align = "center" class="table table-striped table-hover" >
+<tr ><td><div align = "center"><font style = "font-size:25px;font-weight:bold;">全部问卷信息</font></div></td>
+<td><div align = "center"><font style = "font-size:25px;font-weight:bold;"> 今天问卷信息</font></div></td>
+<tr>
+<td><div align = "center"><font style = "font-size:20px;">问卷总数:<%= @allquestionnairescount%></font></div></td>
+<td><div align = "center"><font style = "font-size:20px;">问卷提交总数:<%= @qcounts[6]%><br>问卷回答总数:<%= @acounts[6]%></font></div></td>
+</tr>
+<br>
+
+</table>
+
+
+<!-- <div>
+  <% bshare=[10,20,30,40] %>
+<label id = "dayone"><%= bshare[0]  %></label>
+<label id = "aaa"><%= @questions %></label>
+</div> -->
+
+
+
+<script type="text/javascript">
+
+$(function () {
+       var date=new Date();
+       var datax=new Array();
+      date.setDate(date.getDate()-7);
+       for (var i = 0; i <7; i++) {
+            
+            date.setDate(date.getDate()+1);
+            datax[i]=(date.getMonth()+1).toString()+"月"+date.getDate()+"日";
+            };
+        var data=$('#questionnaire').text();
+        var data1=eval(data);
+        var data=$('#answer').text();
+        var data2=eval(data);
+        $('#container').highcharts({
+            title: {
+                text: '一周问卷统计',
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                categories: datax
+            },
+            yAxis: {
+                title: {
+                    text: '次数'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '次'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: '问卷提交',
+                data: data1
+            }, {
+                name: '问卷回答',
+                data: data2
+            }]
+        });
+    });
+
+		</script>
+
+
+
+<script type="text/javascript">
+
+$(function () {
+           var date=new Date();
+       var datax=new Array();
+      date.setDate(date.getDate()-7);
+       for (var i = 0; i <7; i++) {
+            
+            date.setDate(date.getDate()+1);
+            datax[i]=(date.getMonth()+1).toString()+"月"+date.getDate()+"日";
+            };
+        var data=$('#questionnaire').text();
+        var data1=eval(data);
+        var data=$('#answer').text();
+        var data2=eval(data);
+        $('#container_bar').highcharts({
+            chart: {
+                height: 300,
+                type: 'bar'
+
+            },
+            colors: ['#0293B2','#009369','#01A439','#68B92E','#F6B801','#E35F14'],
+            title: {
+                text: ''
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: datax,
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '次',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF'),
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: '问卷提交',
+                data: data1
+            }, {
+                name: '问卷回答',
+                data: data2
+            }]
+        });
+    });
+  </script>
+<!--http://bolan392.iteye.com/blog/764163   一个用ajax传值的例子-->
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<br />
+<br />
+<br />
+<div id="container_bar" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div> 
+<lable id="questionnaire"  hidden ><%=@qcounts%></lable>
+<lable id="answer" hidden ><%=@acounts%></lable>

@@ -9,19 +9,19 @@ var dat=$('.sub'+choices[i].value.split(";")[0]);
 for(var j=0;j<dat.length;j++)
 {
   dad[j]=new Array();
-  dad[j][0]=j.toString();
+  dad[j][0]=(j+1).toString();
   dad[j][1]=parseFloat(dat[j].innerHTML);
 }
     $('#container_pie'+choices[i].value.split(";")[0]).highcharts({
         chart: {
-            height: 200,
+            height: 400,
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false
         },
         colors: ['#0293B2','#009369','#01A439','#68B92E','#F6B801','#E35F14','#DA251C','#DC1F55','#DD127B','#801D77'],
         title: {
-            text: 'Browser market shares at a specific website, 2014'
+            text: ''
         },
         tooltip: {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -51,6 +51,25 @@ for(var j=0;j<dat.length;j++)
 
 <script type="text/javascript">
 
+function piebartable(question_id,num)
+{
+    document.getElementById("container_pie"+question_id).style.display="none";
+    document.getElementById("container_bar"+question_id).style.display="none";
+    document.getElementById("option_container"+question_id).style.display="none";
+    if(num==1)
+    {
+        document.getElementById("container_pie"+question_id).style.display="";
+    }
+    if(num==2)
+    {
+        document.getElementById("container_bar"+question_id).style.display="";
+    }
+    if(num==3)
+    {
+        document.getElementById("option_container"+question_id).style.display="";
+    }
+}
+
 
 $(function () {
   var choices = $('.lll');
@@ -59,21 +78,21 @@ $(function () {
     var dad2=new Array();
     var dat = $('.sub' + choices[i].value.split(";")[0]);
     for (var j = 0; j < dat.length; j++) {
-      dad1[j] = j.toString();
+      dad1[j] = (j+1).toString();
       dad2[j]= parseFloat(dat[j].innerHTML);
     }
     $('#container_bar' + choices[i].value.split(";")[0]).highcharts({
             chart: {
-                height: 200,
+                height: 400,
                 type: 'bar'
 
             },
             colors: ['#0293B2','#009369','#01A439','#68B92E','#F6B801','#E35F14'],
             title: {
-                text: 'Historic World Population by Region'
+                text: ''
             },
             subtitle: {
-                text: 'Source: Wikipedia.org'
+                text: ''
             },
             xAxis: {
                 categories: dad1,
@@ -84,7 +103,7 @@ $(function () {
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Population (millions)',
+                    text: '数量',
                     align: 'high'
                 },
                 labels: {
@@ -126,53 +145,56 @@ $(function () {
 <!--http://bolan392.iteye.com/blog/764163   一个用ajax传值的例子-->
 
 <!--问卷分析页面设计-->
-<br><br><br><br><br><br>
-<div>
+<br>
+<div align="center">
 <h3><%=  @questionnaire.qa_title %></h3>
 </div>
-
+<br>
 <% @questions.each do |question| %>
-<div class="question_head_container">
+<div class="question_head_container" align="center">
   <h2 class="question_head"><%= question.q_content %></h2>
+<% if question.q_type == 1||question.q_type==3||question.q_type==2 %>
+  <div class="btn-group">
+    <button class="btn" onclick="piebartable(<%=question.id%>,1)">饼状图</button>
+    <button class="btn" onclick="piebartable(<%=question.id%>,2)">柱状图</button>
+    <button class="btn" onclick="piebartable(<%=question.id%>,3)">表格</button>
+  </div>
+<% end %>
 </div>
 <!--动态生成id-->
 <% if question.q_type == 1||question.q_type==3||question.q_type==2 %>
-<div id= "chart_container"> 
-  <%if question.q_type == 1||question.q_type==3%>
-<div id="container_pie<%=question.id%>" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
-<%end%>
-  <%if question.q_type == 2%>
-<div id="container_bar<%=question.id%>" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div> 
-<%end%>
-<input type="hidden" class="lll" value="<%=question.id%>;<%=question.q_type%>">
-</div>
-<% if question.q_type == 1||question.q_type==2%>
-<% @choices = question.q_choice.split(";") %>
-<%end%>
-<% if question.q_type == 3%>
-<% @choices =["True","False"] %>
-<%end%>
-<div id="option_container">
-   <table class="table table-striped table-hover table-bordered">
-        <thead>
-                <tr>
-                  <th width="50">#</th>
-                  
-                  <th>答案选项</th>
-                  <th width="100"> 回复情况</th>
-                </tr>
-              </thead>
-              <tbody>
-               <% @choices.each_with_index do |onechoice,index| %> 
-                <tr>
-                  <td><%=index+1%></td>
-                  <td><%=onechoice%></td>
-                  <td class="sub<%=question.id%>"><%=@datahash[question.id][index]%></td>
-                </tr>
-               <%end%>
-              </tbody>
-    </table>
-</div>
+  <% if question.q_type == 1||question.q_type==2%>
+    <% @choices = question.q_choice.split(";") %>
+  <%end%>
+  <% if question.q_type == 3%>
+    <% @choices =["True","False"] %>
+  <%end%>
+  <div id= "chart_container" align="center"> 
+      <br /><br />
+      <div id="container_pie<%=question.id%>" style="width:600px; height: 400px; margin: 0 auto; display:none"></div>
+      <div id="container_bar<%=question.id%>" style="width:600px; height: 400px; margin: 0 auto; display:none"></div> 
+      <div id="option_container<%=question.id%>">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th width="50">#</th>        
+              <th>答案选项</th>
+              <th width="100"> 回复情况</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @choices.each_with_index do |onechoice,index| %> 
+            <tr>
+              <td><%=index+1%></td>
+              <td><%=onechoice%></td>
+              <td class="sub<%=question.id%>"><%=@datahash[question.id][index]%></td>
+            </tr>
+            <%end%>
+          </tbody>
+        </table>
+      </div>
+      <input type="hidden" class="lll" value="<%=question.id%>;<%=question.q_type%>">
+  </div>
 <%end%>
 <%if question.q_type==4%>
 <div>  

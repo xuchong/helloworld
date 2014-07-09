@@ -1,0 +1,123 @@
+<h1>问卷预览</h1>
+<h1><%=  @questionnaire.qa_title %></h1>
+<div align="center">
+<table class="table table-striped table-hover" style="width:80%">
+     <thead>
+	
+		 		<tr>
+		 			<td>
+		 			<div align="center"style="font-size:20px">
+		 			<%= "主题: "  +  @questionnaire.qa_subject %>
+		 			</div>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			<td>
+		 			<div align="center"style="font-size:20px">
+		 			<%= "描述: "  +  @questionnaire.qa_description %>
+		 			</div>
+		 			 </td>
+		 		</tr>
+		 		
+				
+</thead>
+		<tbody>
+		<% @questions.each do |question| %>
+		
+		 	<% if question.q_type == 1 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "单选题:" %>
+                                        <div style="margin-top:10px">
+		 			  <div style="font-size:18px">
+                                           
+                                            <%= question.q_content %>
+                                          </div>
+		 		        </div>
+
+				<% @choices = question.q_choice.split(";") %>
+				<% @choices.each do |onechoice| %> 
+				
+			              <div style="margin-top:10px">
+					<div width="30px" style="float:left">
+					<%= radio_button_tag '1_'+question.id.to_s , onechoice %> 
+					</div>  
+				              <%= label_tag onechoice %>
+                                      </div>
+				
+				<% end %>
+				</td></tr>
+				
+			
+			<% elsif question.q_type == 2 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "多选题:" %><br />
+                                        <div style="margin-top:10px">
+		 			<div style="font-size:18px">
+                                           <%= question.q_content %>
+                                        </div></div>
+		 		
+
+				<% @choices = question.q_choice.split(";") %>
+				<% @choices.each do |onechoice| %> 
+				
+				      <div style="margin-top:10px">
+					<div width="30px" style="float:left">
+					<%= check_box_tag '2_'+question.id.to_s+ '_'+ onechoice, onechoice %> 
+					</div>  </div>
+				              <%= label_tag onechoice %>
+				
+				<% end %>
+			</td></tr>
+				
+			<% elsif question.q_type == 3 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "判断题:" %><br />
+		 			<div style="margin-top:10px">
+                                         <div style="font-size:18px">
+                                        <%= question.q_content %> </div></div>
+		 		
+					<div style="margin-top:10px"><div width="30px" style="float:left">
+					<%= radio_button_tag '3_'+question.id.to_s, "TRUE"%> 
+					</div>
+				              <%= label_tag "TRUE" %>
+				              <div width="30px" style="float:left">
+					<%= radio_button_tag '3_'+question.id.to_s , "FALSE"%> 
+					</div>  
+				              <%= label_tag "FALSE" %></div>
+				</td></tr>
+				
+			<% elsif question.q_type == 4 %>
+
+		 		<tr>
+		 			<td>
+		 			<%= "简答题:" %>
+                                        <div style="margin-top:10px">
+		 			<div style="font-size:18px">
+                                        <%= question.q_content %> </div></div>
+		 		        <br /><div>
+					<div style="float:left width:200px height:300px">
+					<%= text_area_tag '4_'+question.id.to_s %> 
+					</div> </div>
+					<br />
+				</td></tr>
+				
+			<% end %>
+		<% end %>
+		<tr>
+			<td>
+		<div align="center">
+		<%= link_to '编辑', edit_questionnaire_path(@questionnaire.id), :class=>"btn btn-primary"%>
+	              </div>
+	          </td></tr>
+		<br />
+		<br />
+	</tbody>
+	
+</table>
+</div>

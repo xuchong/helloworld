@@ -1,0 +1,22 @@
+<h1>编辑问卷</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <div class="hero-unit" style="height:250px">
+    <%= form_for(@questionnaire) do |f| %>
+
+      <%= f.label :qa_title , "标题" %>
+      <%= f.text_field :qa_title %>
+
+      <%= f.label :qa_subject , "主题" %>
+      <%= f.text_field :qa_subject %>
+
+      <%= f.label :qa_description , "描述" %>
+      <%= f.text_field :qa_description %>
+<div align = "center">
+      <%= f.submit "保存", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
+  </div>
+</div>

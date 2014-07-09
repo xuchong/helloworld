@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707083420) do
+ActiveRecord::Schema.define(version: 20140709153712) do
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140707083420) do
     t.integer  "qa_user_limit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "closetime"
   end
 
   create_table "questions", force: true do |t|

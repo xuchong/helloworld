@@ -1,37 +1,38 @@
-	<div><br/><br/></div>	
-	<div id="myCarousel" class="carousel slide">
-            <div class="carousel-inner" align="center">
-                <div class="item active left" align="center">
-                    <img src="http://sojump.b0.upaiyun.com/images/MasterNew/side1.jpg" alt="" width="1000px">
-                    <div class="carousel-caption" align="center">
-                        <h4>FireFly问卷调查网站</h4>
-                        <p>
-            专注问卷调查300年～
-                        </p>
-                    </div>
-                </div>
-                <div class="item next left" align="center">
-                    <img src="http://sojump.b0.upaiyun.com/images/MasterNew/side2.jpg?v=2" alt="" width="1000px">
-                    <div class="carousel-caption" align="center">
-                        <h4>生成您的调查问卷</h4>
-                        <p>
-            在本站您可以方便快捷地生成您的调查问卷
-                        </p>
-                    </div>
-                </div>
-                <div class="item" align="center">
-                    <img src="http://sojump.b0.upaiyun.com/images/MasterNew/side3.jpg?v=2" alt="" width="1000px">
-                    <div class="carousel-caption" align="center">
-                        <h4>查看我的调查问卷</h4>
-                        <p>
-            在本站您可以方便地查看你回答过的调查问卷
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
-        </div>
+<script type="text/javascript">
+                function showinfo(id_name)
+                {   
+                   $("#collapse"+id_name).collapse('toggle');
+                }
+            </script>
+<div style="z-index:10;margin-top:-20px;margin-left:-173px;">
+    <video autoplay="autoplay" name="media"  width="1320px"   loop="loop"><source src="<%= video_path('home_video.mp4')%>" type="video/mp4"></video>
+  </div>    
+<br /><br />
+<div style="font-size:25pt;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;;font-weight:bold;position:absolute;color:white;top:120px;left:100px;z-index:100;zoom: 1;">
+    FIREFLIES问卷调查网
+</div>
+<div align="center" class="well well-small"  style="position:absolute;top:120px;right:100px;z-index:100;zoom: 1;width:250px;margin-top:-55px;float:right;display:block">
+<div>
+    <p style="font-size:15px;font-weight:bold">我们为您挑选的问卷</p>
+</div>
 
-
-
+<div class="accordion" id="accordion2">
+  <% @questionnaires.each do |questionnaire| %>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="background:#F0F0F0">
+       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" onclick="showinfo(<%=questionnaire.id%>)" style="color:#282828">
+              
+               <%= questionnaire.qa_title%>
+       </a>
+     </div>
+     <div id="collapse<%=questionnaire.id%>" class="accordion-body collapse">
+       <div class="accordion-inner" style="background:#FAFAFA">
+              <p>主题：<%= questionnaire.qa_subject%></p>
+              <p>描述：<%= questionnaire.qa_description%></p>
+              <a href="/questionnaires/<%= questionnaire.id%>">点此作答</a>
+       </div>
+     </div>
+  </div>
+<% end %>
+</div>
+</div>

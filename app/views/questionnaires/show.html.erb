@@ -177,13 +177,13 @@
                                         <%= question.q_content %> </div></div>
 		 		
 					<div style="margin-top:10px"><div width="30px" style="float:left">
-					<%= radio_button_tag '3_'+question.id.to_s, "True"%> 
+					<%= radio_button_tag '3_'+question.id.to_s, "TRUE"%> 
 					</div>
-				              <%= label_tag "是" %>
+				              <%= label_tag "TRUE" %>
 				              <div width="30px" style="float:left">
-					<%= radio_button_tag '3_'+question.id.to_s , "False"%> 
+					<%= radio_button_tag '3_'+question.id.to_s , "FALSE"%> 
 					</div>  
-				              <%= label_tag "否" %></div>
+				              <%= label_tag "FALSE" %></div>
 				</td></tr>
 				
 			<% elsif question.q_type == 4 %>
@@ -194,7 +194,7 @@
                                         <div style="margin-top:10px">
 		 			<div style="font-size:18px">
                                         <%= question.q_content %> </div></div>
-		 		        <div>
+		 		        <br /><div>
 					<div style="float:left width:200px height:300px">
 					<%= text_area_tag '4_'+question.id.to_s %> 
 					</div> </div>

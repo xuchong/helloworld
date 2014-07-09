@@ -1,11 +1,67 @@
+<script type="text/javascript">
+                function showinfo(id_name)
+                {   
+                   $("#collapse"+id_name).collapse('toggle');
+                }
+            </script>
 <% provide(:title, @user.user_name) %>
+
 <div class="row">
+  <section style="margin-left:30px;font-size:20px;font-weight:bold;">
+    <%= gravatar_for @user %>
+        <%= @user.user_name%>
+        </section>
   <aside class="span4">
-    <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.user_name %>
-      </h1>
-    </section>
-  </aside>
+         <div class="row">
+  <div class="span4 offset0" style="float:left" >
+      <div class="hero-unit">
+        <div >
+          <p>昵称:
+          <%= @user.user_name %></p>
+        </div>
+        <div>
+        	<p>邮箱:
+          <%= @user.user_email %></p>
+        </div>
+        <div>
+        	<p>年龄:
+          <%= @user.user_age %></p>
+        </div>
+        <div>
+        	<p>性别:
+          <%= @user.user_sex %></p>
+        </div>
+        <div>
+        	<p>职业:
+          <%= @user.user_job %></p>
+        </div>
+      </div>
 </div>
+  </aside>
+  <div align="center" class="well well-small" style="background:#ffffff;width:600px;margin-left:340px" >
+<div>
+    <p style="font-size:15px;font-weight:bold">我们为您挑选的问卷</p>
+</div>
+
+<div class="accordion" id="accordion2">
+  <% @questionnaires.each do |questionnaire| %>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="background:#F0F0F0">
+       <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" onclick="showinfo(<%=questionnaire.id%>)" style="color:#282828">
+              
+               <%= questionnaire.qa_title%>
+       </a>
+     </div>
+     <div id="collapse<%=questionnaire.id%>" class="accordion-body collapse">
+       <div class="accordion-inner" style="background:#FAFAFA">
+              <p>主题：<%= questionnaire.qa_subject%></p>
+              <p>描述：<%= questionnaire.qa_description%></p>
+              <a href="/questionnaires/<%= questionnaire.id%>">点此作答</a>
+       </div>
+     </div>
+  </div>
+<% end %>
+</div>
+</div>
+</div>
+  

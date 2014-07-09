@@ -5,6 +5,9 @@ class UsersController < ApplicationController
 
 
   def index
+     if !admin?
+      redirect_to (user_id_limit_path) and return
+    end
     @users = User.all
   end
 
@@ -14,6 +17,10 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    if !admin? && @user.id != current_user.id
+      redirect_to (user_id_limit_path) and return
+    end
+    @questionnaires = Questionnaire.where(qa_status: 1)
   end
   
   def destroy
@@ -26,7 +33,7 @@ class UsersController < ApplicationController
 
     par = user_params
 
-    par[:user_is_admin] = 1
+    par[:user_is_admin] = 0
     par[:user_status] = 0
 
     @user = User.new(par)    # Not the final implementation!
@@ -40,13 +47,45 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
+  def shutdown
     @user = User.find(params[:id])
+    
+    if @user.user_status == 0
+      @user.update_attribute(:user_status,1)
+        redirect_to (:back)
+    else 
+        flash[:error] = "User already shut down"
+        redirect_to (:back)
+    end
+  end
+
+  def reshut
+    @user = User.find(params[:id])
+    
+    if @user.user_status == 1
+      @user.update_attribute(:user_status,0)
+        redirect_to (:back)
+    else 
+        flash[:error] = "User status is normal"
+        redirect_to (:back)
+    end
+  end
+
+  def edit
+ 
+    @user = User.find(params[:id])
+        if !admin? && @user.id != current_user.id
+      redirect_to (user_id_limit_path) and return
+    end
   end
 
   def update
+
     @user = User.find(params[:id])
-    if @user && @user.authenticate(params[:old_password])
+        if !admin? && @user.id != current_user.id
+      redirect_to (user_id_limit_path) and return
+    end
+    if @user
       if @user.update_attributes(user_params)
         flash[:success] = "Profile updated"
         redirect_to @user
@@ -60,12 +99,20 @@ class UsersController < ApplicationController
   end
 
   def my_questionnaires
+
     @user = User.find(params[:id])
+        if !admin? && @user.id != current_user.id
+      redirect_to (user_id_limit_path) and return
+    end
     @questionnaires = @user.questionnaires
   end
 
   def my_answered_questionnaires
+
     @user = User.find(params[:id])
+        if !admin? && @user.id != current_user.id
+      redirect_to (user_id_limit_path) and return
+    end
     @relationships = @user.relationships
   end
 

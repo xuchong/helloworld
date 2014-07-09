@@ -16,11 +16,12 @@
 
    <tbody>
    	<% @users.each do |user| %>
+   	<% if user.id != current_user.id %>
 	<tr>
 	<td> <%= link_to user.user_name, user_path(user.id) %> </td>
 	<td> <%= user.user_email %> </td>
 	<td> <%= user.created_at %> </td>
-	<td> <% if user.user_status == 1 %> 
+	<td> <% if user.user_status == 0 %> 
 		 <p>正常</p>
 		 <% else %>
 		 <p> 封禁</p>
@@ -33,10 +34,15 @@
 		<%= user.relationships.count %>
 	</td>
 	<td>
-		<%= link_to '封禁', '#' , :class=>"btn btn-mini" %>
+		<% if user.user_status == 0 %> 
+		<%= link_to '封禁', shutdown_user_path(user.id) , :class=>"btn btn-mini" %>
+		<% else %>
+		<%= link_to '解封', reshut_user_path(user.id) , :class=>"btn btn-mini" %>
+		<% end %>
 		<%= link_to '删除', user, method: :delete, :class=>"btn btn-mini btn-danger" , data: { confirm: '确定删除用户吗?' } %>
 	</td>
 	</tr>
+	<% end %>
      <% end %>
    </tbody>
 </table>

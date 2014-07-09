@@ -1,0 +1,156 @@
+<script type="text/javascript">
+	var now_status=false;
+	function showusers()
+	{
+		var table=document.getElementById("table");
+		if(now_status==false)
+		{
+			now_status=true;
+			table.style.display="block";
+		}
+		else
+		{
+			now_status=false;
+			table.style.display="none";
+		}
+	}
+	var now_date_status=false;
+	function showDateAndTime()
+	{
+		var date_picker=document.getElementById("Wdate");
+		var date_picker_lbl=document.getElementById("Wdatelbl");
+
+		if(now_date_status==false)
+		{
+			now_date_status=true;
+			date_picker.style.display="block";
+			date_picker_lbl.style.display="block";
+		}
+		else
+		{
+			now_date_status=false;
+			date_picker.style.display="none";
+			date_picker_lbl.style.display="none";
+		}
+	}
+
+	var isAllSelect=false;
+	function selectAll()
+	{
+		var cnt=$("#table").attr("class");
+		if(isAllSelect==false)
+		{
+			isAllSelect=true;
+		}
+		else
+		{
+			isAllSelect=false;
+		}
+		for (var i = 1; i <=cnt; i++) {
+			var choice=document.getElementById(i);
+			choice.checked=isAllSelect;
+		};
+	}
+	function getJson()
+	{
+		var b1checked=document.getElementById("box1").checked?"1":"0";
+		var b2checked=document.getElementById("box2").checked?"1":"0";
+		var b3checked=document.getElementById("box3").checked?"1":"0";
+		var b4checked=document.getElementById("box4").checked?"1":"0";
+		var Json="{\"id\":\"<%=@questionnaire.id %>\",\"box1\":\""+b1checked+"\",\"box2\":\""+b2checked+"\",\"box3\":\""+b3checked+"\",\"date\":\"";
+		var box5=document.getElementById("box5");
+		var b5checked=box5.checked;
+		if(b5checked)
+		{
+			var dateval=document.getElementById("Wdate").value;
+			Json+=dateval;
+		}
+		Json+="\",\"user\":\"";
+		var cnt=$("#table").attr("class");
+		var user="";
+		if(b4checked=="1")
+		{
+			var len=user.length;
+			for (var i = 1; i <=cnt; i++)
+			{
+				var choice=document.getElementById(i)
+				if(choice.checked)
+				{
+					user+=choice.value+";";
+				}
+			}
+		}
+		if(user.length!=0)
+		{
+			user=user.substring(0,user.length-1);
+		}
+		Json+=user+"\"}";
+		$("#relationship_ip").val(Json);
+	}
+	$(document).ready(function(){
+		var table=document.getElementById("table");
+		table.style.display="none";
+		var date_picker=document.getElementById("Wdate");
+		date_picker.style.display="none";
+		var date_picker_lbl=document.getElementById("Wdatelbl");
+		date_picker_lbl.style.display="none";
+	});
+</script>
+<h1>发布设置</h1>
+<h1><%= @questionnaire.qa_title %></h1>
+<div style="margin-top:10px">
+	<div width="30px" style="float:left">
+		<%= check_box_tag 'box1' %> 
+	</div>  
+	<%= label_tag '每个IP仅能答卷一次' %>
+</div>
+<div style="margin-top:10px">
+	<div width="30px" style="float:left">
+		<%= check_box_tag 'box2' %> 
+	</div>  
+	<%= label_tag '每个用户仅能答卷一次' %>
+</div>
+<div style="margin-top:10px">
+	<div width="30px" style="float:left">
+		<%= check_box_tag 'box3' %> 
+	</div>  
+	<%= label_tag '禁止匿名用户答卷' %>
+</div>
+<div style="margin-top:10px">
+	<div width="30px" style="float:left">
+		<input id="box5" name="box5" type="checkbox" value="1" onclick="showDateAndTime();">
+	</div>  
+	<%= label_tag '限定问卷截至时间' %>
+	<label id="Wdatelbl" >选择日期:</label><input  id="Wdate" class="Wdate" type="text" onClick="WdatePicker()" style="width:150px" />
+</div>
+<div style="margin-top:10px">
+	<div width="30px" style="float:left">
+		<input id="box4" name="box4" type="checkbox" value="1" onclick="showusers();">
+	</div>  
+	<%= label_tag '选择特定用户答卷' %>
+</div>
+<div id="table" class="<%= @users.count%>">
+	<table>
+		<tbody>
+		<tr>
+			<td>
+			<input id="userall" name="userall" type="checkbox" value="1" onclick="selectAll()">
+			 </td>
+
+			<td>全选</td>
+		<tr>
+	   	<% @users.each_with_index do |user,i| %>
+		<tr>
+			<td><%= check_box_tag i+1, user.id %> </td>
+			<td><%= label_tag user.user_name %> </td>
+		<tr>
+	     <% end %>
+	   </tbody>
+	</table>
+</div>
+<div align="center">
+	<%= form_for (@relationship) do |f| %>
+	<%= f.hidden_field :ip %>
+	<%= f.submit :value => '确定', :class=>'btn btn-large btn-primary',:onclick=>"getJson();"%>
+	<% end %>
+</div>
