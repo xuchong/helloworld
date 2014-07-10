@@ -12,7 +12,7 @@ class RelationshipsController < ApplicationController
         @questionnaire.update_attribute(:qa_user_limit, @hash["box2"])
         
         @questionnaire.update_attribute(:qa_special_list, @hash["user"])
-        if @hash["date"].nil?
+        if @hash["date"] == ""
           @questionnaire.update_attribute(:closetime, "3333-03-03")
         else
           @questionnaire.update_attribute(:closetime, @hash["date"])

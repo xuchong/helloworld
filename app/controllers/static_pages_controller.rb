@@ -37,7 +37,7 @@ end
 
   def qrcode
      @questionnaire = Questionnaire.find(params[:id])
-     @tempstring =  request.protocol + request.domain  + "/questionnaires/"+  @questionnaire.id.to_s
+     @tempstring =  request.protocol + request.host_with_port  + "/questionnaires/"+  @questionnaire.id.to_s
  	   @qr = RQRCode::QRCode.new(@tempstring, :size=>4, :level=>:l)
   end
 end

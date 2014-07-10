@@ -1,8 +1,12 @@
 class QuestionnairesController < ApplicationController
   def index
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
      if !admin?
       redirect_to (user_id_limit_path) and return
     end
+  end
     @questionnaires = Questionnaire.all
   end
 
@@ -29,6 +33,7 @@ class QuestionnairesController < ApplicationController
     par[:qa_ip_limit] = 0
     par[:qa_user_limit] = 0
     par[:qa_status] = 0
+    par[:closetime] = "2222-02-02"
 
     @questionnaire = Questionnaire.new(par)    # Not the final implementation!
     
@@ -53,16 +58,24 @@ class QuestionnairesController < ApplicationController
 
 	def edit
            @questionnaire = Questionnaire.find(params[:id])
+            if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
             if !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
 	end
 
   def edit_questions
      @questionnaire = Questionnaire.find(params[:id])
+      if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
       if !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
      @questions = @questionnaire.questions
      @question = Question.new
      @tempid = @questionnaire.id
@@ -70,9 +83,13 @@ class QuestionnairesController < ApplicationController
 
        def preshow
         @questionnaire = Questionnaire.find(params[:id])
+         if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
       if !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
     @questions = @questionnaire.questions
        end
 
@@ -99,7 +116,7 @@ class QuestionnairesController < ApplicationController
         end
       end
 if !signed_in?
-     if !@questionnaire.qa_is_anonymous
+     if @questionnaire.qa_is_anonymous ==1
               redirect_to (user_signin_limit_path) and return
           end
 else
@@ -159,9 +176,13 @@ end
   def publishresult
 
    @questionnaire = Questionnaire.find(params[:id])
+    if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
      if !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
     if @questionnaire.qa_status ==2
         @questionnaire.update_attribute(:qa_status, 3)
         redirect_to (:back)
@@ -174,9 +195,13 @@ end
 
    def new_questions
       @questionnaire = Questionnaire.find(params[:id])
+       if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
        if !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
       @question = Question.new
       @tempid = @questionnaire.id
     end
@@ -201,7 +226,7 @@ end
   end
   
     def questionnaire_params
-      params.require(:questionnaire).permit(:qa_title, :qa_subject, :qa_description)
+      params.require(:questionnaire).permit(:qa_title, :qa_subject, :qa_description, :closetime)
     end
 def question_params
       params.require(:question).permit(:data, :questionnaire_id)
@@ -214,9 +239,13 @@ def relationship_params
     end
     def report 
     @questionnaire=Questionnaire.find(params[:id])
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
     if @questionnaire.qa_status != 3 && !admin? &&current_user.id != @questionnaire.user_id
       redirect_to (user_id_limit_path) and return
     end
+  end
     @questions=@questionnaire.questions
     @datahash=Hash.new 
     @questions.each_with_index do |q,index|
@@ -243,9 +272,13 @@ def relationship_params
     end
 
     def info
+      if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
        if !admin?
       redirect_to (user_id_limit_path) and return
     end
+  end
       @allquestionnairescount=Questionnaire.all.count;
     @qcounts=Array.new(7,0);
     @acounts=Array.new(7,0) ;

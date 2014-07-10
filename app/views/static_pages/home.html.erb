@@ -8,9 +8,14 @@
     <video autoplay="autoplay" name="media"  width="1320px"   loop="loop"><source src="<%= video_path('home_video.mp4')%>" type="video/mp4"></video>
   </div>    
 <br /><br />
-<div style="font-size:25pt;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;;font-weight:bold;position:absolute;color:white;top:120px;left:100px;z-index:100;zoom: 1;">
+<div style="font-size:25pt;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:bold;position:absolute;color:white;top:120px;left:100px;z-index:100;zoom: 1;">
     FIREFLIES问卷调查网
-</div>
+<br /><br /><br />
+<div>
+  <%= link_to '登录',  signin_path, :class => "btn btn-large btn-primary", :type => "button", :style => "width:150px" %><br /><br />
+  <%= link_to '注册',  signup_path, :class => "btn btn-large btn-primary", :type => "button", :style => "width:150px" %>
+</div></div>
+
 <div align="center" class="well well-small"  style="position:absolute;top:120px;right:100px;z-index:100;zoom: 1;width:250px;margin-top:-55px;float:right;display:block">
 <div>
     <p style="font-size:15px;font-weight:bold">我们为您挑选的问卷</p>

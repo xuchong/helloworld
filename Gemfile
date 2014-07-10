@@ -38,7 +38,7 @@ gem 'bootstrap-sass', '2.3.2.0'
 gem 'bcrypt-ruby', '~> 3.1.2'
 
 gem 'rqrcode'
-
+gem 'zeroclipboard-rails'
 
 group :development do
    #gem 'sqlite' -> comment out for now

@@ -5,9 +5,13 @@ class UsersController < ApplicationController
 
 
   def index
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
      if !admin?
       redirect_to (user_id_limit_path) and return
     end
+  end
     @users = User.all
   end
 
@@ -16,10 +20,16 @@ class UsersController < ApplicationController
   end
 
   def show
-  	@user = User.find(params[:id])
+  	
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
+        @user = User.find(params[:id])
     if !admin? && @user.id != current_user.id
       redirect_to (user_id_limit_path) and return
     end
+
+  end
     @questionnaires = Questionnaire.where(qa_status: 1)
   end
   
@@ -74,17 +84,25 @@ class UsersController < ApplicationController
   def edit
  
     @user = User.find(params[:id])
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
         if !admin? && @user.id != current_user.id
       redirect_to (user_id_limit_path) and return
     end
+  end
   end
 
   def update
 
     @user = User.find(params[:id])
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
         if !admin? && @user.id != current_user.id
       redirect_to (user_id_limit_path) and return
     end
+  end
     if @user
       if @user.update_attributes(user_params)
         flash[:success] = "Profile updated"
@@ -100,19 +118,29 @@ class UsersController < ApplicationController
 
   def my_questionnaires
 
-    @user = User.find(params[:id])
+    
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
+        @user = User.find(params[:id])
         if !admin? && @user.id != current_user.id
       redirect_to (user_id_limit_path) and return
     end
+  end
     @questionnaires = @user.questionnaires
   end
 
   def my_answered_questionnaires
 
-    @user = User.find(params[:id])
+    
+     if !signed_in?
+        redirect_to (user_id_limit_path) and return
+      else
+        @user = User.find(params[:id])
         if !admin? && @user.id != current_user.id
       redirect_to (user_id_limit_path) and return
     end
+  end
     @relationships = @user.relationships
   end
 
